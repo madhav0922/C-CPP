@@ -1,129 +1,63 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
 
 typedef struct Node
-{
-    int data;
-    struct Node *next;
-}node;
-
-void insert(node **Head, int val, int pos = 1)
     {
-        node *newnode = new node;
-        newnode -> data = val;
-        newnode -> next = NULL;
-        node *p;
-        p = *Head;
-        if(!newnode)
-            {
-                cout<<"Memory error\n";
-                exit(0);
-            }
-        //insertion at beginning
-        if(!p)
+        int data;
+        struct Node *next;
+    }node;
+
+struct LinkedList
+{
+    node *Head = NULL ;
+
+    void insert(int val)
         {
-            *Head = newnode;
-        }
-        else if(pos == 1)
-        {
-            newnode -> next = p;
-            *Head = newnode;
-        }
-        else
-        {
-            //traversal of pointer
-            int k = 1;
-            while(p->next && k<pos)
-                {
-                    p = p->next;
-                    k++;
-                }
-            //insertion at end
-            if(p->next == NULL)
-                p->next = newnode;
-            //insertion at kth position
+            //insertion at beginning
+            node *newnode =new node;
+            newnode -> data =val;
+            newnode -> next = NULL;
+            node *p;
+            p = Head;
+            if(!p)
+                Head = newnode;
             else
             {
-                newnode -> next = p -> next;
-                p -> next = newnode;
+                newnode -> next = p;
+                Head = newnode;
             }
         }
-    }
 
-void delete_node(node **Head, int pos = 1)
-    {
-        node *p, *q;
-        p = *Head;
-        if(!Head)
-            cout<<"List is Empty";
-        //deletion from beginning
-        if(pos == 1)
-            {
-                *Head = p -> next;
-                free(p);
-                p= NULL;
-            }
-        else
+    void display()
         {
-            int k=1;
-                while(p->next && k<pos)
-                    {
-                        k++;
-                        q=p;
-                        p=p->next;
-                    }
-                //deletion from end
-                if(p->next == NULL)
-                    {
-                        q -> next = NULL;
-                        free(p);
-                        p = NULL;
-                    }
-                // deletion from kth node
-                else
+            while(Head)
                 {
-                    q ->next = p -> next;
-                    free(p);
-                    p = NULL;
+                    cout<<Head -> data;
+                    Head = Head -> next;
                 }
         }
-        
-    }
-void display(node *Head)
-    {
-        while(Head)
-            {
-                cout<<Head->data;
-                Head=Head->next;
-            }
-            cout<<endl;
-    }
-
-void reverse(node **Head)
-    {
-        node *prev=NULL, *curr, *nxt;
-        curr = *Head;
-        nxt = curr -> next;
-        while(curr->next)
-            {
-                curr -> next = prev;
-                prev = curr;
-                curr = nxt;
-                nxt = nxt -> next;
-            }
-        curr -> next = prev;
-        *Head = curr;
-    }
+    
+    void reverse(node *curr, node *prev = NULL)
+        {
+            if(!curr)
+                {
+                    Head = prev;
+                }
+            else
+                {
+                    reverse(prev -> next, curr -> next);
+                    curr -> next = prev;
+                }
+        }
+};
 
 int main()
     {
-        node *Head = NULL;
-        insert(&Head,10);
-        insert(&Head,20);
-        insert(&Head,30);
-        display(Head);
-        delete_node(&Head,2);
-        display(Head);
-        reverse(&Head);
-        display(Head);
+        LinkedList l1;
+        l1.insert(10);
+        l1.insert(20);
+        l1.insert(30);
+        l1.display();
+        l1.reverse(l1.Head,NULL);
+        l1.display();
     }
