@@ -7,6 +7,21 @@ typedef struct Node
     struct Node *next;
 }node;
 
+//node *Head=NULL;
+
+// void reverse(node *curr, node *prev)
+//     {
+//         if(curr)
+//         {
+//             reverse(prev->next,curr->next);
+//                 curr->next = prev;
+//         }
+//         else
+//         {
+//             Head = prev;
+//         }
+//     }
+
 void insert(node **Head,int val,int pos=1)
     {
         node *newnode = new node;
@@ -88,8 +103,6 @@ void display(node *Head)
         return;
     }
 
-
-
 int main()
     {
         node *Head = NULL;
@@ -98,5 +111,7 @@ int main()
         insert(&Head,30,3);
         display(Head);
         delete_node(&Head,2);
+        display(Head);
+        //reverse(Head,NULL);
         display(Head);
     }
