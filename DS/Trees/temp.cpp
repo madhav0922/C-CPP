@@ -27,7 +27,7 @@ typedef struct Node
     struct Node *left, *right;
 } node;
 
-node *newnode(int key)
+node* newnode(int key)
 {
     node *temp = new node;
     temp->val = key;
@@ -66,14 +66,29 @@ int ismirror(node *root1, node *root2)
     return (root1 && root2 && root1->val == root2->val && ismirror(root1->left, root2->right) && ismirror(root1->right, root2->left));
 }
 
-int isidentical(node *root1, node *root2)
-{
-    node *temp;
-    if (root1 == NULL && root2 == NULL)
-        return 1;
+// int isidentical(node *root1, node *root2)
+// {
+//     node *temp;
+//     if (root1 == NULL && root2 == NULL)
+//         return 1;
 
-    return (root1 && root2 && root1->val == root2->val && isidentical(root1->left, root2->left) && isidentical(root1->right, root2->right));
-}
+//     return (root1 && root2 && root1->val == root2->val && isidentical(root1->left, root2->left) && isidentical(root1->right, root2->right));
+// }
+
+int isidentical(node *root1, node *root2)
+    {
+        if(root1 == NULL && root2 == NULL)
+            return 1;
+        else if(root1->val == root2->val)
+        {
+            return 1;
+        }
+        else
+        {
+            isidentical(root1->left,root2->left);
+            isidentical(root1->right,root2->right);
+        }
+    }
 
 void levelorder_inline(node *root)
 {
@@ -229,7 +244,7 @@ int main()
 
     node *root1 = newnode(1);
     root1->left = newnode(2);
-    root1->right = newnode(3);
+    root1->right = newnode(2);
     root1->left->left = newnode(4);
     root1->left->right = newnode(5);
     root1->right->left = newnode(6);

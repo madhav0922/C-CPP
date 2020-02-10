@@ -9,7 +9,7 @@ void swap(int *x, int *y)
 
 void selection_sort_ite(int *A, int N)
 {
-    int i, j, min_value, min, temp;
+    int i, j, min, temp;
     for (i = 0; i < N - 1; i++)
     {
         min = i;

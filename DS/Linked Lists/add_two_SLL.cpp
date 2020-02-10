@@ -56,17 +56,17 @@ void display(node *Head)
 void reverse(node **Head)
     {
         node *prev=NULL,*curr,*nxt;
-        curr=*Head;
-        nxt=curr->next;
+        curr=*Head;                     
+        nxt=curr->next;                 // no need of this line
         
-        while(curr->next!=NULL)
-            {
-                curr->next=prev;
-                prev=curr;
-                curr=nxt;
-                nxt=nxt->next;
-            }
-        curr->next=prev;
+        while(curr->next!=NULL)         // while(curr)
+            {                              // {
+                curr->next=prev;               // nxt = curr -> next; 
+                prev=curr;                      // curr -> next = prev;
+                curr=nxt;                       // prev = curr;
+                nxt=nxt->next;                  // curr = nxt;
+            }                               // }
+        curr->next=prev;                    //return prev;
         *Head=curr;
     }
 

@@ -1,39 +1,38 @@
 #include<iostream>
 using namespace std;
 
-void selection_sort(int *a)
+
+void swap(int *x, int *y)
     {
-        int min,j,temp;
-        for(int i=0;i<5;i++)
+        int temp;
+        temp = *x;
+        *x = *y;
+        *y = temp;
+    }
+void selection_sort(int *A,int n)
+    {
+        int i,j,min;
+        for(i=0;i<n;i++)
             {
                 min = i;
-                for(j=i+1;j<5;j++)
+                for(j = i+1 ;j<n;j++)
                     {
-                        if(a[j]<a[min])
-                            min = j;
+                        if(A[j]<A[min])
+                            {
+                                min = j;
+                            }
                     }
-                cout<<j;
-                cout<<min;
-                temp = a[min];
-                a[min] = a[i];
-                a[i] = temp;
+                swap(&A[i],&A[min]);
             }
     }
 
 int main()
     {
-        int arr[5];
-        for(int i=0;i<5;i++)
+        int n,arr[100];
+        cin>>n;
+        for(int i=0;i<n;i++)
             cin>>arr[i];
-
-        selection_sort(arr);
-
-        for(int i=0;i<5;i++)
+        selection_sort(arr,n);
+        for(int i=0;i<n;i++)
             cout<<arr[i]<<" ";
-    
     }
-
-// single source shortest path
-// dijksta
-// cycle detection (bfs) (disjoint sets)
-

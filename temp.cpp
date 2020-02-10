@@ -68,7 +68,6 @@ int ismirror(node *root1, node *root2)
 
 int isidentical(node *root1, node *root2)
 {
-    node *temp;
     if (root1 == NULL && root2 == NULL)
         return 1;
 
@@ -88,10 +87,11 @@ void levelorder_inline(node *root)
         k = q.front();
         q.pop();
         cout << k->val;
-        if (k->left != NULL)
+        if(k->left)
             q.push(k->left);
-        if (k->right != NULL)
+        if(k->right)
             q.push(k->right);
+
     }
 }
 
@@ -164,16 +164,16 @@ void spiralprint_inline(node *root)
 //     inorder(root, k);
 // }
 
-bool isbst(node *root, int min, int max)
+int isbst(node *root, int min, int max)
 {
     if (root == NULL)
         return true;
-    if (root->val <= min || root->val >= max)
+    if (root->val < min || root->val > max)
         return false;
     return (isbst(root->left, min, root->val) && isbst(root->right, root->val, max));
 }
 
-bool isbtbst(node *root)
+int isbtbst(node *root)
 {
     return isbst(root, INT16_MIN, INT16_MAX);
 }
@@ -226,7 +226,7 @@ void left_view(node *root)
 int main()
 {
     int k, n;
-
+    node *root3 = NULL;
     node *root1 = newnode(1);
     root1->left = newnode(2);
     root1->right = newnode(3);
@@ -248,7 +248,7 @@ int main()
     root2->right->right->left = newnode(9);
 
     // for BST
-    node *root3 = newnode(10);
+    root3 = newnode(10);
     root3->left = newnode(5);
     root3->right = newnode(15);
     root3->left->left = newnode(3);
@@ -330,10 +330,12 @@ int main()
 
     spiralprint_inline(root1); // reverse level order inline
 
-    n = isbtbst(root3);
-    cout << "\n"
-         << "is bst? " << k
-         << "\n";
+    cout<<"\n is bst?";
+    if(isbtbst(root3))
+        cout<<" Yes";
+    else
+        cout<<"No";
+    
 
     //LCA
     int a = 1, b = 7;
