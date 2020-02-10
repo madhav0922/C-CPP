@@ -4,7 +4,7 @@ o/p:
 333
 313
 323
-333
+333  
 */
 
 #include<iostream>
