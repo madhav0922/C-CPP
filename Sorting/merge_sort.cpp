@@ -1,19 +1,26 @@
 #include<iostream>
 using namespace std;
 
-void merge(int *A, int low, int mid, int high)
+void merge(int *A,int low, int mid, int high)
     {
-        int p = mid-low+1;
-        int q = high - mid;
-        int L[p+1],R[q+1],i,j,k;
-        for(i=1;i<=p;i++)
-            L[i] = A[low+i-1];
-        for(j=1;j<=q;j++)
-            R[j] = A[mid+j];
-        i = j = 1;
-        //L[p+1] = INT8_MAX;
-        //R[q+1] = INT8_MAX;
-        for(k=low;k<high;k++)
+        int n1,n2,i,j,k;
+        n1 = mid-low+1;
+        n2 = high - mid; 
+        int L[n1],R[n2];
+        //L[n1+1] = R[n2+1] = INT16_MAX;
+
+            for(i=0;i<n1;i++)
+                L[i] = A[low+i];
+            for(j=0;j<n2;j++)
+                R[j] = A[mid+1+j];
+        // for(i=0;i<n1;i++)
+        //     cout<<L[i]<<" ";
+        // cout<<"\n";
+        // for(i=0;i<n2;i++)
+        //     cout<<R[i]<<" ";
+        // cout<<"\n";
+        i=0,j=0,k = low;
+        while(i<n1 && j<n2)
             {
                 if(L[i]<=R[j])
                     {
@@ -25,33 +32,40 @@ void merge(int *A, int low, int mid, int high)
                         A[k] = R[j];
                         j++;
                     }
+                k++;
+            }
+        // copy remaining elements, if any
+        while(i<n1)
+            {
+                A[k] = L[i];
+                k++; i++;
+            }
+        while(j<n2)
+            {
+                A[k] = R[j];
+                k++; j++;
             }
     }
 
-int merge_sort(int *A,int low, int high)
+void merge_sort(int *A,int low,int high)
     {
-        int mid;
-        if(low == high)
+        if(low<high)
         {
-            return A[low];
-        }
-        else
-        {
-            mid = low + (high-low)/2;
+            int mid = low + (high-low)/2;
             merge_sort(A,low,mid);
             merge_sort(A,mid+1,high);
             merge(A,low,mid,high);
         }
-        return -1;
     }
 
 int main()
     {
-        int n,arr[100];
-        cin>>n;
-        for(int i=0;i<n;i++)
+        int n,i;
+         cin>>n;
+        int arr[n];
+         for(i=0;i<n;i++)
             cin>>arr[i];
-        merge_sort(arr,1,n);
-        for(int i=0;i<n;i++)
+        merge_sort(arr,0,n-1);
+        for(i=0;i<n;i++)
             cout<<arr[i]<<" ";
     }
