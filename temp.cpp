@@ -91,7 +91,6 @@ void levelorder_inline(node *root)
             q.push(k->left);
         if(k->right)
             q.push(k->right);
-
     }
 }
 
@@ -173,10 +172,11 @@ int isbst(node *root, int min, int max)
     return (isbst(root->left, min, root->val) && isbst(root->right, root->val, max));
 }
 
-int isbtbst(node *root)
-{
-    return isbst(root, INT16_MIN, INT16_MAX);
-}
+
+// int isbtbst(node *root)
+// {
+//     return isbst(root, INT16_MIN, INT16_MAX);
+// }
 
 int lca_bst(node *root, int a, int b)
 {
@@ -191,16 +191,26 @@ int lca_bst(node *root, int a, int b)
 node *lca_binary_tree(node *root, int a, int b)
 {
     node *right, *left;
+    
+    //Base case
     if (root == NULL)
         return NULL;
+    
+    // If either a or b matches with root's key, report 
+    // the presence by returning root (Note that if a key is 
+    // ancestor of other, then the ancestor key becomes LCA 
     if (root->val == a || root->val == b)
         return root;
     left = lca_binary_tree(root->left, a, b);
     right = lca_binary_tree(root->right, a, b);
+    // If both of the above calls return Non-NULL, then one key 
+    // is present in once subtree and other is present in other, 
+    // So this node is the LCA
     if (left == NULL && right == NULL)
         return NULL;
     if (left != NULL && right != NULL)
         return root;
+        // Otherwise check if left subtree or right subtree is LCA 
     return ((left != NULL) ? left : right);
 }
 
@@ -210,7 +220,7 @@ void tree_left_view(node *root, int level, int *max_level)
         return;
     if (level > *max_level)
     {
-        cout << root->val;
+        cout << root->val << " ";
         *max_level = level;
     }
     tree_left_view(root->left, level + 1, max_level); // do not send address of max_level again as it will result in pointer to pointer to ... case
@@ -221,6 +231,19 @@ void left_view(node *root)
 {
     int max_level = 0;
     tree_left_view(root, 1, &max_level);
+}
+
+void right_view(node *root, int level , int *maxlevel)
+{
+    if(root == NULL)
+        return;
+    if(level>*maxlevel)
+        {
+            cout<<root->val<<" ";
+            *maxlevel = level;
+        }
+    right_view(root->right,level+1,maxlevel);
+    right_view(root->left,level+1,maxlevel);
 }
 
 int main()
@@ -247,7 +270,7 @@ int main()
     root2->left->left->right = newnode(8);
     root2->right->right->left = newnode(9);
 
-    // for BST
+    // for BST and LCA of BST
     root3 = newnode(10);
     root3->left = newnode(5);
     root3->right = newnode(15);
@@ -331,13 +354,13 @@ int main()
     spiralprint_inline(root1); // reverse level order inline
 
     cout<<"\n is bst?";
-    if(isbtbst(root3))
+    if(isbst(root3,INT32_MIN,INT32_MAX))
         cout<<" Yes";
     else
-        cout<<"No";
+        cout<<" No";
     
 
-    //LCA
+    //LCA BST
     int a = 1, b = 7;
     n = lca_bst(root3, a, b);
     cout << "\n"
@@ -345,7 +368,7 @@ int main()
          << "\n";
 
     // LCA Binary Tree
-    int c = 9, d = 7;
+    int c = 2, d = 5;
     node *lcabt;
     lcabt = lca_binary_tree(root4, c, d);
     cout << "\n"
@@ -356,6 +379,20 @@ int main()
     cout << "\n"
          << "Left View of Tree: "
          << "\n";
+
+    //This can also be used in the place of void left_view(...)   
+    //int max_length = 0;
+    //tree_left_view(root5,1,&max_length);
     left_view(root5);
     cout << "\n";
+
+    // right view of tree
+    cout << "\n"
+         << "right View of Tree: "
+         << "\n";
+
+    int maxlength = 0;
+    right_view(root5,1,&maxlength);
+    cout << "\n";
+
 }
