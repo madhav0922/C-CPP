@@ -1,32 +1,29 @@
 #include<stdio.h>
+#include<stdlib.h>
 
-happy(int n)
+int is_happy_no(int n)
     {
-        int dig1,dig2,digit = n;
-        while(digit % 0 != 1)
+        int r = 0, sum = 0;
+        while(n>0)
             {
-                if(sq > 10)
-                    {
-                        dig1 = sq%10;
-                        dig2 = sq/10;
-                        sq = (dig1 * dig1) + (dig2 * dig2);
-                    }
-                else
-                    sq = digit * digit;
-                
+                r = n%10;
+                sum = sum + (r*r);
+                n = n/10;
             }
+        return sum;
     }
-int main(int argc, char *argv[])
+int main(int argc, char** argv)
     {
-        if( argc == 2 ) {
-            printf("The argument supplied is %s\n", argv[1]);
-        }
-        else if( argc > 2 ) {
-            printf("Too many arguments supplied.\n");
-        }
-        else {
-            printf("One argument expected.\n");
-        }
+        int result;
+        result = atoi(argv[1]);
+        while(result != 1 && result != 4)
+            result  = is_happy_no(result);
 
-        happy(argv[1]);
+        if(result == 1)
+            printf("Happy number");    
+    
+        else if(result == 4)    
+            printf("Unhappy number");    
+
+        return 0; 
     }
