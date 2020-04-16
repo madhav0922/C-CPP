@@ -7,12 +7,17 @@ void rule5(int *C, int n)
         for(i = 0 ; i < n ; i++)
             {
                 for(j = 0 ; j < n-1 ; j++)
-                    if(C[j] == C[i]*C[i])
+                    {
+                        if(i != j)
                         {
-                            for(l = j; l < n; l++)
-                                C[l] = C[l+1];
-                            n--;
+                            if(C[j] == C[i]*C[i])
+                            {
+                                for(l = j; l < n; l++)
+                                    C[l] = C[l+1];
+                                n--;
+                            }
                         }
+                    }
             }
             for(i = 0 ; i < n ; i++)
                 printf("%d ", C[i]);
@@ -114,8 +119,22 @@ void rule2(int *B, int n)
         rule1(B,n);
     }
 
+void arrayCleanup(int A[], int n)
+    {
+        rule2(A,n);
+    }
+
 int main()
     {
-        int a[10] = {1,2,3,4,5,1,2,2,0,14}, n = 10;
-        rule2(a,n);
+        int a[10], n;
+        printf("Enter the size of array(max 10)\n");
+        scanf("%d",&n);
+        printf("Enter %d elements: \n", n);
+
+        for(int i = 0 ; i < n ; i++)
+            scanf("%d",&a[i]);
+        
+        arrayCleanup(a,n);
+        
+        return 0;
     }
