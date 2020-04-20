@@ -12,5 +12,6 @@ int main()
             scanf("%d",ptr);
             printf("Entered number is: %d\n",*ptr);
         }
+    free(ptr);
     return 0;
 }
