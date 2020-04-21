@@ -4,7 +4,7 @@
 int main()
 {
     FILE *fp;
-    char file_name[256], file_content[50], txt[4] = ".txt";
+    char file_name[256], file_content[50];
     printf("Enter the file name to be created\n");
     fgets(file_name, 256, stdin);
 

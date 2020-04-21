@@ -10,7 +10,7 @@ struct studentdata
 
 void getdata(struct studentdata *x)
 {
-    for(int i = 0 ; i < 2 ; i++)
+    for(int i = 0 ; i < 5 ; i++)
     {
         printf("\nEnter information for student %d:\n\n", i+1);
         printf("Enter marks in 10 subjects\n");
@@ -27,7 +27,7 @@ void getdata(struct studentdata *x)
 
 void display_struct(struct studentdata *x)
     {
-        for(int i = 0 ; i < 2 ; i++)
+        for(int i = 0 ; i < 5 ; i++)
         {
             printf("\nInformation of student %d:\n",i+1);
             printf("\nMarks in 10 subjects\n");

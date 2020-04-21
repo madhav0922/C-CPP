@@ -6,7 +6,7 @@ struct empdata
  char empname[100]; 
  int empno; 
  long int empphno; 
-}emp; 
+}; 
 
 void getdata(struct empdata *x)
 {   

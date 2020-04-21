@@ -1,13 +1,12 @@
 #include<stdio.h>
 
-int main()
+int main(int argc, char** argv)
 {
-    //printf("%s%s",argv[1],argv[2]);
     char ch;
     FILE *source, *target;
     
-    source = fopen("abc","r");
-    target = fopen("def","w");
+    source = fopen(argv[1],"r");
+    target = fopen(argv[2],"w");
 
     ch = getc(source);
     while(ch != EOF)
@@ -16,11 +15,13 @@ int main()
             ch = getc(source);
         }
 
+    printf("File copied successfully!\n");
+
     fclose(source);
     fclose(target);
-    printf("Content in file \n");
+    printf("Content in file %s\n",argv[2]);
 
-    target = fopen("def","r");
+    target = fopen(argv[2],"r");
     ch = getc(target);
     while(ch != EOF)
         {
