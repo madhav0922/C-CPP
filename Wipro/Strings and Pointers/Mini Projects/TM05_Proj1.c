@@ -1,50 +1,53 @@
-#include <stdio.h>  
-#include <string.h>  
-#define MIN(x, y) (((x) < (y)) ? (x) : (y))  
-//User-defined substring function that will take string(str), position(p) and no of character(len) as input  
-//Produces result c as output  
-void substring(char s[], char sub[], int p, int len)
-{  
-    int c = 0;  
-        while (c < len) 
-        {  
-            sub[c] = s[p+c];  
-            c++;  
-        }  
-    sub[c] = '\0';  
-}  
-  
-//Function thats gives the longest common prefix among two strings.  
-int lcp(char s[], char t[],char a[])
-{  
-    int n = MIN(strlen(s),strlen(t));  
-    for(int i = 0; i < n; i++)
-        {  
-            if(s[i] != t[i])
-            {  
-                substring(s,a,0,i);  
-                return 0;  
-            }  
-        }  
-    substring(s,a,0,n);  
-    return 0;  
-}  
-  
-int main()  
-{  
-    char str[] = "helloredhellogreenhelloyellow";  
-    char lrs[100], x[100], res[100], sub[100], sub1[100];  
-    int i,j,n = strlen(str);  
-    for(i = 0; i < n; i++){  
-    for(j = i+1; j < n; j++){  
-        //For comparing each substring with every other substring  
-    substring(str,sub,i,n);  
-    substring(str,sub1,j,n);  
-    lcp(sub,sub1,x);  
-        //lrs keeps track of the longest repeating sequence  
-        if(strlen(x) > strlen(lrs)) strncpy(lrs, x, strlen(x));  
- }  
-}  
-printf("Longest repeating sequence: %s\n",lrs);  
-  return 0;  
-}  
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+void substring(char *str, int n)
+{
+    fflush(stdin);
+    int i, j, k, l, count = 0, max_count = -1, flag = 0, temp = 0;
+    char subs[n], max_subs[n];
+
+    if(n == 0 || n > strlen(str))
+        {
+            printf("Error: Invalid length of substring\n");
+            exit(0);
+        }
+
+    for(i = 0 ; i < (strlen(str)-n+1); i++)
+        {
+            flag = 0;
+            for(k = i ; k < (i+n) ; k++)
+                subs[k-i] = str[k];
+            count = 0;
+            for(j = 0 ; j < (strlen(str)-n+1); j++)
+                {   
+                    temp = 0;
+                    for(l = j ; l < (j+n) ; l++)
+                        {
+                            if(subs[l-j] == str[l])
+                                temp++;
+                            else
+                                temp--;
+                        }
+                    if(temp == n)
+                        count++;
+                }
+            if(count >= max_count)
+                {
+                    max_count = count;
+                    strcpy(max_subs, subs);
+                    flag = 1;
+                }
+            if(flag)
+                printf("%s:",max_subs);            
+        }
+    printf("\n");
+}
+
+int main(int argc, char** argv)  
+{ 
+    int n = atoi(argv[2]);
+    substring(argv[1], n);
+    return 0;
+}
