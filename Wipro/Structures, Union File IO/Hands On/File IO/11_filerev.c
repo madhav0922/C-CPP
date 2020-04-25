@@ -18,6 +18,7 @@ void mystrrev(char *str1, char *str2)
 int main(int argc, char** argv)
 {
     FILE *source, *target;
+    fflush(stdin);
     char ch, rev[MAX], line[MAX], target_file[] = "target.txt";
     source = fopen(argv[1], "r");
     target = fopen(target_file, "w");

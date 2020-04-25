@@ -26,7 +26,7 @@ void reverseWords(char* s)
         if ((word_begin == NULL) && (*temp != ' ')) { 
             word_begin = temp; 
         } 
-        if (word_begin && ((*(temp + 1) == ' ') || (*(temp + 1) == '\0'))) { 
+        if (word_begin && ((*(temp + 1) == ' ') || (*(temp + 1) == '\0') || (*(temp + 1) == '\n'))) { 
             reverse(word_begin, temp); 
             word_begin = NULL; 
         } 
@@ -40,6 +40,7 @@ void reverseWords(char* s)
 int main(int argc, char** argv)
 {
     FILE *source, *target;
+    fflush(stdin);
     char ch, word[MAX], line[MAX], target_file[] = "target.txt";
     source = fopen(argv[1], "r");
     target = fopen(target_file, "w");
@@ -52,8 +53,8 @@ int main(int argc, char** argv)
     while(!feof(source))
         {
             fgets(line, 256, source);
-             if(strcmp(line, "\n"))
-                fprintf(target, "\n");
+            //  if(strcmp(line, "\n"))
+            //     fprintf(target, "\n");
             reverseWords(line);
             fprintf(target, "%s", line);
             for(int i = 0 ; i < 256 ; i++)
