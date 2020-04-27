@@ -94,8 +94,8 @@ void display_list(node *Head)
 
 int main()
     {
-        node *Head, *Head2, *new,*new2;
-        int data=10;
+        node *Head, *Head2, *new, *new2;
+        int data = 10;
         new = create_node(data);
         insert(&Head,new);  //also take position for inserting in between
         // printf("%d",new2->data);

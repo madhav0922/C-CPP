@@ -47,6 +47,11 @@ void substring(char *str, int n)
 
 int main(int argc, char** argv)  
 { 
+    if(argc < 3)
+        {
+            printf("usage: %s <string> <length of substring>\n",argv[0]);
+            exit(0);
+        }
     int n = atoi(argv[2]);
     substring(argv[1], n);
     return 0;

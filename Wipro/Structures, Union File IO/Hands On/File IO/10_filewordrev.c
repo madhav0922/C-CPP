@@ -52,16 +52,13 @@ int main(int argc, char** argv)
     
     while(!feof(source))
         {
-            fgets(line, 256, source);
-            //  if(strcmp(line, "\n"))
-            //     fprintf(target, "\n");
+            fgets(line, MAX, source);
             reverseWords(line);
             fprintf(target, "%s", line);
-            for(int i = 0 ; i < 256 ; i++)
+            for(int i = 0 ; i < MAX ; i++)
                 {
                     strcpy(&line[i], "\0");
                 }
-
         }
     fclose(source);
     fclose(target);
