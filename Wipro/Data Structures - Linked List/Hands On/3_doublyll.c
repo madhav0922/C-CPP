@@ -4,7 +4,7 @@
 typedef struct Node 
 {
     int data;
-    struct Node *next;
+    struct Node *prev, *next;
 }node;
 
 node* create_node(int data)
@@ -16,6 +16,7 @@ node* create_node(int data)
                 exit(0);
             }
         newnode -> data = data;
+        newnode -> prev = NULL;
         newnode -> next = NULL;
         return(newnode);
     }
@@ -29,7 +30,9 @@ void insert(node **Head, node *newnode, int pos)
             *Head = newnode;
         else if(pos == 1)
             {
+                newnode -> prev = NULL;
                 newnode -> next = p;
+                p -> prev = newnode;
                 *Head = newnode;
             }
         else            //other insertions
@@ -44,11 +47,16 @@ void insert(node **Head, node *newnode, int pos)
                     }
                     
                     if(p -> next == NULL)      //p==NULL meaning end position
-                        p -> next = newnode;  //insertion at end
+                        {
+                            p -> next = newnode;  //insertion at end
+                            newnode -> prev = p;
+                        }
                     else        
                         {
-                            newnode -> next = p;    //insertion at kth position
-                            q -> next = newnode;
+                            newnode -> prev = p -> prev;    //insertion at kth position
+                            newnode -> next = p;
+                            p -> prev -> next = newnode;
+                            p -> prev = newnode;
                         }
             }
     }
@@ -61,6 +69,7 @@ void delete_node(node **Head, int pos)
         if(pos == 1)
             {
                 *Head = p -> next;
+                p -> next -> prev = NULL;
                 free(p);
                 p = NULL;
             }
@@ -68,11 +77,11 @@ void delete_node(node **Head, int pos)
             {
                 int k = 1;
                 node *temp;
-                while(p && k < pos)
+                while(p -> next && k < pos)
                     {
                         k++;
                         q = p;
-                        p = p->next;
+                        p = p -> next;
                     }
                 if(!p)
                 {
@@ -80,7 +89,9 @@ void delete_node(node **Head, int pos)
                 }
                 else
                 {
-                    q->next = p->next;  // temp = p->next;              //deletion from kth node and end
+                    q -> next = p -> next;  // temp = p->next;              //deletion from kth node and end
+                    if(p -> next)
+                        p -> next -> prev = q;
                     free(p);            // p->next = p->next->next;     //using single pointer
                     p = NULL;           // free(temp);
                                         // temp=NULL;
@@ -98,11 +109,11 @@ void display_list(node *Head)
         temp=Head;
         while(temp -> next != NULL)
             {
-                printf("%d -> ",temp -> data);
+                printf("%d -> ", temp -> data);
                 temp = temp -> next;
             }
-            printf("%d", temp -> data);
         }
+        printf("%d", temp -> data);
     }
 
 void search(node *Head, int element)
@@ -179,13 +190,13 @@ int main()
                             }
                         else
                             printf("Value %d will be inserted\n\n", data);
-
                         printf("---- Insert Node ----\n\n");
+                        
                         printf("Enter position to insert new node at: ");
                         scanf("%d", &pos);
                         insert(&Head, new, pos);
                         new = NULL;
-                        break;        
+                        break;
                 case 4: printf("---- Display Node ----\n\n");
                         display_list(Head);
                         printf("\n\n");
