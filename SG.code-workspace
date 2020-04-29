@@ -11,7 +11,10 @@
 		"files.associations": {
 			"stdio.h": "c",
 			"ctype.h": "c",
-			"stdlib.h": "c"
+			"stdlib.h": "c",
+			"2.C": "cpp",
+			"TM09_Horizontal & Vertical Linked List 3.C": "cpp",
+			"2_mergelists.C": "cpp"
 		}
 	}
 }

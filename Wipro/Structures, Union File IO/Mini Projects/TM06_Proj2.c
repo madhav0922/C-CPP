@@ -107,68 +107,134 @@ int validate_sudoku(int sudo[9][9])
 		return (validate_rows(sudo) && validate_cols(sudo) && validate_mat(sudo));
 	}
 
-int main()
+void check_format(FILE *source)
+{
+	char ch, line[23];
+	while(ch != EOF)
+		{
+			ch  = fgetc(source);
+			if(ch == '|')
+			{
+				ch = getc(source);
+			    if(ch == '|')
+				{
+					printf("Error: Format error in matrix\n");
+					exit(0);
+				}
+				else if(ch == ' ')
+				{
+					ch = getc(source);
+					if(ch == '|' || ch == ' ')
+						{
+							printf("Error: Format error in matrix\n");
+							exit(0);
+						}
+				}
+				else
+					continue;
+			}
+			else
+				continue;
+		}
+
+	fseek(source, 0, SEEK_SET);
+	while(!feof(source))
+		{
+			fgets(line, 23, source);
+			if(line[0] == '-')
+			{
+				for(int i = 0 ; i < 20 ; i++)
+					{
+						if(line[i] == '-')
+							{
+								continue;
+							}
+						else
+						{
+							printf("Error: Format error in matrix\n");
+							exit(0);
+						}
+					}
+				if(line[21] == '-')
+					{
+						printf("Error: Format error in matrix\n");
+							exit(0);
+					}
+				fgets(line, 23, source);
+				if(line[0] == '-')
+					{
+						printf("Error: Format error in matrix\n");
+							exit(0);
+					}
+			}
+		}
+	}
+
+int main(int argc, char** argv)
 {
 	sudoku sudo;
-	FILE *source;
-	int i = 0, j = 0, ch1;
+	FILE *source, *copy;
+	int i = 0, j = 0, n;
 	char ch;
-	char sep = '|', space = ' ';
-	source = fopen("sudoku.txt", "r");
-	//  while(!feof(source))
-	//  	{
-			while(i < 9)
-				{
-					j = 0;
-					while(j < 9)
-					{
-						fscanf(source, "%d", &ch1);
-						ch = getc(source);
-						ch = getc(source);
-						ch = getc(source);
-						if(ch1 > 0 && ch1 <= 9)
-							{
-								sudo.mat[i][j] = ch1;
-								j++;
-							}
-						else if(ch1 > 9)
-							{
-								printf("Digit %d is out of range\n", ch1);
-								break;
-							}
-						
-						if((j+1) % 3 == 0)
-							{
-								ch = getc(source);
-								if(ch == sep || ch == space)
-									{
-										ch = getc(source);
-										if(ch == sep || ch == space)
-											{
-												ch = getc(source);
-												if(ch == sep || ch == space)
-													{
-														ch = getc(source);
-														if(ch == sep || ch == space)
-															{
-																printf("Error in format");
-																exit(0);
-															}
-													}
-											}
-									}
+	source = fopen(argv[1], "r");
 
-							}
-					}
-					i++;
-				}
-	//	}
-	for(i = 0 ; i < 9 ; i++)
+	check_format(source);
+
+	fseek(source, 0, SEEK_SET);
+
+	copy = fopen("copy.txt", "w");
+
+	while(!feof(source))
+	{
+		ch = fgetc(source);
+		if(ch == '|')
+			{
+				ch = fgetc(source);
+			}
+		else if(ch == '-')
+			{
+				ch = fgetc(source);
+				while(ch == '-')
+					ch = fgetc(source);
+				fputc(ch, copy);
+			}
+		else
 		{
-			for(j = 0 ; j < 9 ; j++)
-			printf("%d", sudo.mat[i][j]);
-		printf("\n");
+			fputc(ch, copy);
 		}
+	}
+
+	fclose(source);
+	fclose(copy);
+
+	copy = fopen("copy.txt", "r");
+	i = 0 ; j = 0;
+	while(i < 9)
+		{
+			j = 0;
+			while(j < 9)
+			{
+					fscanf(copy, "%d", &n);
+				if(n > 0 && n <= 9)
+					{
+						sudo.mat[i][j] = n;
+						j++;
+					}
+				else if(n > 9)
+					{
+						printf("\nDigit %d is out of range\n", n);
+						exit(0);
+					}
+			}
+			i++;
+		}
+
+	// for(i = 0 ; i < 9 ; i++)
+	// 	{
+	// 		for(j = 0 ; j < 9 ; j++)
+	// 		printf("%d", sudo.mat[i][j]);
+	// 	printf("\n");
+	// 	}
 	int res = validate_sudoku(sudo.mat);
 	if(res)
 		printf("Sudoku Matrix Verification SUCCESS\n");
